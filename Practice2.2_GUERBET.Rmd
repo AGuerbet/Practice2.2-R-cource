@@ -1,0 +1,44 @@
+---
+title: "Practice 2.2"
+author: "Arnaud Guerbet"
+date: "2022-09-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Script
+
+```{r cars}
+#definition of the working directory and activation of packages
+setwd('C:/Users/ASUS/Desktop/NTU_Courses/R courses/week3')
+getwd()
+library(tidyr)
+library(dplyr)
+
+#openning of the dataset
+rairuoho<-read.table('rairuoho.txt', header=T, sep='\t', dec='.') 
+head(rairuoho)
+
+
+#Replace values "Nutrient" by "enriched" 
+rairuoho$treatment<-ifelse(rairuoho$treatment=='nutrient','enriched','water')
+head(rairuoho)
+
+#Reformat data with "day" as a factor and value as "length"
+rairuoho1<- rairuoho %>% pivot_longer(cols = c(1:6), names_to = "Day", values_to = "length")
+head(rairuoho1)
+
+#remove column "row" and "column"
+rairuoho2 <- dplyr::select(rairuoho1,c(1:5,8:9))
+head(rairuoho2)
+
+#connect of column "spatial1" and "spatial2"
+rairuoho3<-rairuoho2%>%unite("Spatial", spatial1:spatial2, remove = T) 
+head(rairuoho3)
+
+```
+
+
